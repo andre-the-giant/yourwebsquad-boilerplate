@@ -1,4 +1,11 @@
-# yourwebsquad-boilerplate
+# BoilerFuckinPlate
+A little bit of this, a little bit of that.
+
+How I can kickstart a new site with tons of good shit in less than an hour
+
+<img src="https://yourwebsquad.com/img/logo-black-square.png" width="200">
+
+https://YourWebSquad.com
 
 ## Introduction
 
