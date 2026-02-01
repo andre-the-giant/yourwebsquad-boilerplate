@@ -3,9 +3,6 @@ import MainLayout from "@layouts/Main.astro";
 import { buildSeo, buildJsonLd } from "@helpers/seo";
 
 const locale = "en";
-if (!import.meta.env.SITE_URL) {
-  throw new Error("SITE_URL environment variable is required");
-}
 
 const seo = buildSeo({
   locale,
@@ -21,7 +18,7 @@ const jsonLd = buildJsonLd({
   path: "/",
   org: {
     name: "Your Web Squad Project",
-    url: "https://example.com/"
+    url: import.meta.env.SITE_URL || ""
   }
 });
 ---

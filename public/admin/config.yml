@@ -2,7 +2,7 @@ backend:
   name: github
   repo: your-org/your-repo
   branch: main
-  base_url: https://example-auth.netlify.app
+  base_url: https://your-auth-endpoint.example.com
   auth_endpoint: "/.netlify/functions/auth"
 
 editor:
@@ -21,207 +21,87 @@ i18n:
   initial_locales: [en]
 
 collections:
-  - name: home
-    label: Home
-    label_singular: Home page
+  - name: menu
+    label: Menu
     i18n: true
     files:
-      - name: home
-        label: Home
-        file: public/content/{{locale}}/home.json
+      - name: menu
+        label: Menu items
+        file: public/content/{{locale}}/menu.json
         format: json
         i18n: true
-        slug: "{{locale}}"
-        identifier_field: locale
-        summary: "Home ({{locale}})"
+        identifier_field: id
         fields:
-          - label: SEO
-            name: seo
-            widget: object
-            i18n: true
-            summary: "SEO"
-            fields:
-              - { label: Title, name: title, widget: string, i18n: true }
-              - { label: Description, name: description, widget: text, i18n: true }
-              - { label: Image, name: image, widget: image, choose_url: true, i18n: duplicate }
-            collapsible: true
-            collapsed: true
-          - label: About
-            name: about
-            widget: object
-            i18n: true
-            summary: "About"
-            fields:
-              - { label: Title, name: title, widget: string, i18n: true }
-              - { label: Body, name: body, widget: markdown, i18n: true }
-          - label: Featured Artist
-            name: featuredArtist
-            widget: object
-            i18n: true
-            summary: "Featured artist"
-            fields:
-              - { label: Title, name: title, widget: string, i18n: true }
-              - { label: Intro, name: intro, widget: markdown, i18n: true }
-          - label: Incoming Guests
-            name: incomingGuests
-            widget: object
-            i18n: true
-            summary: "Incoming guests"
-            fields:
-              - { label: Title, name: title, widget: string, i18n: true }
-
-  - name: artists
-    label: Artistes
-    label_singular: Artiste
-    i18n: true
-
-    # With i18n: multiple_folders, do NOT put {{locale}} here
-    folder: public/content
-    path: "artists/{{slug}}"
-
-    create: true
-    format: json
-    extension: json
-
-    fields:
-      - { label: Name, name: name, widget: string, i18n: duplicate }
-      - { label: Slug, name: slug, widget: string, i18n: duplicate }
-      - { label: Order, name: order, widget: number, value_type: int, i18n: duplicate }
-      - { label: Bio, name: bio, widget: markdown, i18n: true }
-      - {
-          label: Instagram,
-          name: instagram,
-          widget: string,
-          required: false,
-          hint: "Handle only, without @",
-          i18n: duplicate
-        }
-      - {
-          label: Image,
-          name: image,
-          widget: image,
-          choose_url: true,
-          required: false,
-          i18n: duplicate
-        }
-      - label: Guest details
-        name: guest
-        widget: object
-        required: false
-        collapsed: false
-        i18n: true
-        hint: "Artist will show as a guest"
-        fields:
-          - label: Guest visits
-            name: guestVisits
+          - label: Items
+            name: items
             widget: list
-            required: false
-            collapsed: false
-            i18n: duplicate
-            summary: "{{from}} → {{to}}"
+            i18n: true
             fields:
+              - { label: Id, name: id, widget: string }
+              - { label: Label, name: label, widget: string }
+              - { label: URL, name: href, widget: string }
               - {
-                  label: From,
-                  name: from,
-                  widget: datetime,
-                  time_format: false,
-                  date_format: "YYYY-MM-DD"
-                }
-              - {
-                  label: To,
-                  name: to,
-                  widget: datetime,
-                  time_format: false,
-                  date_format: "YYYY-MM-DD"
+                  label: Show in (header/footer),
+                  name: showIn,
+                  widget: select,
+                  multiple: true,
+                  options: ["header", "footer"],
+                  required: false
                 }
 
-  - name: faq
-    label: FAQ
-    i18n: true
+  - name: company
+    label: Company
+    i18n: false
     files:
-      - name: faq
-        label: FAQ
-        file: public/content/{{locale}}/faq.json
+      - name: company
+        label: Company
+        file: public/content/company/company.json
         format: json
-        i18n: true
-        slug: "{{locale}}"
-        identifier_field: locale
-        summary: "FAQ ({{locale}})"
         fields:
-          - label: SEO
-            name: seo
-            widget: object
-            i18n: true
-            summary: "SEO"
-            fields:
-              - { label: Title, name: title, widget: string, i18n: true }
-              - { label: Description, name: description, widget: text, i18n: true }
-              - { label: Image, name: image, widget: image, choose_url: true, i18n: duplicate }
-            collapsible: true
-            collapsed: true
-
-  - name: consent
-    label: Consentement
-    i18n: true
-    files:
-      - name: consent
-        label: Consentement
-        file: public/content/{{locale}}/consent.json
+          - { label: Name, name: name, widget: string }
+          - { label: URL, name: url, widget: string }
+          - { label: Email, name: email, widget: string }
+      - name: contact
+        label: Contact
+        file: public/content/company/contact.json
         format: json
-        i18n: true
-        slug: "{{locale}}"
-        identifier_field: locale
-        summary: "Consent ({{locale}})"
         fields:
-          - label: SEO
-            name: seo
-            widget: object
-            i18n: true
-            summary: "SEO"
+          - label: Telephones
+            name: telephones
+            widget: list
             fields:
-              - { label: Title, name: title, widget: string, i18n: true }
-              - { label: Description, name: description, widget: text, i18n: true }
-              - { label: Image, name: image, widget: image, choose_url: true, i18n: duplicate }
-            collapsible: true
-            collapsed: true
-          - label: Contenu
-            name: content
-            widget: object
-            i18n: true
-            summary: "Content"
+              - { label: Label, name: label, widget: string }
+              - { label: Display, name: display, widget: string }
+              - { label: Short, name: short, widget: string, required: false }
+              - { label: Primary, name: isPrimary, widget: boolean, default: false }
+          - label: Locations
+            name: locations
+            widget: list
             fields:
-              - { label: Heading, name: heading, widget: string, i18n: true }
-              - { label: Body, name: body, widget: markdown, i18n: true }
-
-  - name: aftercare
-    label: Soins
-    i18n: true
-    files:
-      - name: aftercare
-        label: Soins
-        file: public/content/{{locale}}/aftercare.json
+              - { label: Label, name: label, widget: string }
+              - { label: Default, name: isDefault, widget: boolean, default: false }
+              - label: Address
+                name: address
+                widget: object
+                fields:
+                  - { label: Street, name: street, widget: string }
+                  - { label: City, name: city, widget: string }
+                  - { label: Province, name: province, widget: string, required: false }
+                  - { label: Postal code, name: postalCode, widget: string }
+                  - { label: Country, name: country, widget: string }
+              - { label: Latitude, name: lat, widget: number, required: false }
+              - { label: Longitude, name: lng, widget: number, required: false }
+              - { label: Map embed URL, name: mapEmbedUrl, widget: string, required: false }
+      - name: social
+        label: Social
+        file: public/content/company/social.json
         format: json
-        i18n: true
-        slug: "{{locale}}"
-        identifier_field: locale
-        summary: "Soins ({{locale}})"
         fields:
-          - label: SEO
-            name: seo
-            widget: object
-            i18n: true
-            summary: "SEO"
+          - label: Links
+            name: links
+            widget: list
             fields:
-              - { label: Title, name: title, widget: string, i18n: true }
-              - { label: Description, name: description, widget: text, i18n: true }
-              - { label: Image, name: image, widget: image, choose_url: true, i18n: duplicate }
-            collapsible: true
-            collapsed: true
-          - label: Contenu
-            name: content
-            widget: object
-            i18n: true
-            summary: "Content"
-            fields:
-              - { label: Heading, name: heading, widget: string, i18n: true }
-              - { label: Body, name: body, widget: markdown, i18n: true }
+              - { label: Slug, name: slug, widget: string }
+              - { label: URL, name: url, widget: string }
+              - { label: Icon path, name: icon, widget: string }
+              - { label: Display in footer, name: displayInFooter, widget: boolean, default: true }
