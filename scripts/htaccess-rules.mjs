@@ -1,0 +1,60 @@
+// Build htaccess configuration for this project.
+// Returns shape expected by astro-htaccess: { redirects, customRules }
+export function buildHtaccessConfig() {
+  const redirects = [];
+
+  const customRules = [
+    "# Redirect to HTTPS and strip www",
+    "<IfModule mod_rewrite.c>",
+    "  RewriteEngine On",
+    "  RewriteCond %{HTTP_HOST} ^www\\.(.+)$ [NC]",
+    "  RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301,NE]",
+    "  RewriteCond %{HTTPS} !=on",
+    "  RewriteCond %{HTTP:X-Forwarded-Proto} !https",
+    "  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE]",
+    "</IfModule>",
+    "",
+    "# Caching for static assets",
+    "<IfModule mod_expires.c>",
+    "  ExpiresActive On",
+    '  ExpiresDefault "access plus 1 month"',
+    '  ExpiresByType image/webp "access plus 1 year"',
+    '  ExpiresByType image/jpeg "access plus 1 year"',
+    '  ExpiresByType image/png  "access plus 1 year"',
+    '  ExpiresByType image/gif  "access plus 1 year"',
+    '  ExpiresByType image/svg+xml "access plus 1 year"',
+    '  ExpiresByType text/css "access plus 1 year"',
+    '  ExpiresByType application/javascript "access plus 1 year"',
+    '  ExpiresByType text/html "access plus 0 seconds"',
+    "</IfModule>",
+    "",
+    "<IfModule mod_headers.c>",
+    '  <FilesMatch "\\\\.(js|css|png|jpe?g|gif|svg|webp)$">',
+    '    Header set Cache-Control "public, max-age=31536000, immutable"',
+    "  </FilesMatch>",
+    '  <FilesMatch "\\\\.(html|htm)$">',
+    '    Header set Cache-Control "public, max-age=0, must-revalidate"',
+    "  </FilesMatch>",
+    '  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"',
+    '  Header set X-Content-Type-Options "nosniff"',
+    '  Header set Referrer-Policy "strict-origin-when-cross-origin"',
+    '  Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"',
+    '  Header set Cross-Origin-Opener-Policy "same-origin-allow-popups"',
+    '  Header set X-Frame-Options "SAMEORIGIN"',
+    "  Header set Content-Security-Policy \"default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'\"",
+    "</IfModule>",
+    "",
+    "# Compression",
+    "<IfModule mod_deflate.c>",
+    "  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/javascript application/json image/svg+xml",
+    "</IfModule>",
+    "<IfModule mod_brotli.c>",
+    "  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/xml text/css application/javascript application/json image/svg+xml",
+    "</IfModule>",
+    "",
+    "# Disable directory browsing",
+    "Options -Indexes"
+  ];
+
+  return { redirects, customRules };
+}

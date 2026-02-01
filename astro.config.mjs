@@ -3,68 +3,57 @@ import sitemap from "@astrojs/sitemap";
 import tsconfigPaths from "vite-tsconfig-paths";
 import yourwebsquadForms from "yourwebsquad-components/forms-integration";
 import htaccessIntegration from "astro-htaccess";
+import fs from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { buildHtaccessConfig } from "./scripts/htaccess-rules.mjs";
 
-// Boilerplate defaults — override via SITE_URL env when scaffolding a new project.
+const homepageComments = {
+  name: "homepage-comments",
+  hooks: {
+    "astro:build:done": async ({ dir, logger }) => {
+      const outDir = fileURLToPath(dir);
+      const targets = [
+        {
+          label: "/",
+          file: path.join(outDir, "index.html"),
+          banner: [
+            "<!--",
+            "  Built with yourwebsquad-boilerplate",
+            "  Swap or remove this banner in astro.config.mjs (homepageComments).",
+            "-->"
+          ].join("\n")
+        }
+      ];
+
+      await Promise.all(
+        targets.map(async ({ label, file, banner }) => {
+          try {
+            const html = await fs.readFile(file, "utf8");
+            await fs.writeFile(file, `${banner}\n${html}`);
+            logger.info(`homepage-comments: injected banner into ${label}`);
+          } catch (error) {
+            logger.warn(
+              `homepage-comments: failed to prepend banner for ${label} at ${file}: ${error}`
+            );
+          }
+        })
+      );
+    }
+  }
+};
+
+// Env-aware URLs
+const DEPLOY_ENV = process.env.DEPLOY_ENV || "development"; // development | staging | production
 const SITE_URL = process.env.SITE_URL || "https://example.com";
+const STAGING_URL = process.env.STAGING_URL || SITE_URL;
+const ACTIVE_SITE = DEPLOY_ENV === "staging" ? STAGING_URL : SITE_URL;
 const defaultLocale = "en";
 const locales = ["en"];
 const hreflang = { en: "en" };
 
-const htaccessRules = [
-  "# Redirect to HTTPS and strip www",
-  "<IfModule mod_rewrite.c>",
-  "  RewriteEngine On",
-  "  RewriteCond %{HTTP_HOST} ^www\\.(.+)$ [NC]",
-  "  RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301,NE]",
-  "  RewriteCond %{HTTPS} !=on",
-  "  RewriteCond %{HTTP:X-Forwarded-Proto} !https",
-  "  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE]",
-  "</IfModule>",
-  "",
-  "# Caching for static assets",
-  "<IfModule mod_expires.c>",
-  "  ExpiresActive On",
-  '  ExpiresDefault "access plus 1 month"',
-  '  ExpiresByType image/webp "access plus 1 year"',
-  '  ExpiresByType image/jpeg "access plus 1 year"',
-  '  ExpiresByType image/png  "access plus 1 year"',
-  '  ExpiresByType image/gif  "access plus 1 year"',
-  '  ExpiresByType image/svg+xml "access plus 1 year"',
-  '  ExpiresByType text/css "access plus 1 year"',
-  '  ExpiresByType application/javascript "access plus 1 year"',
-  '  ExpiresByType text/html "access plus 0 seconds"',
-  "</IfModule>",
-  "",
-  "<IfModule mod_headers.c>",
-  '  <FilesMatch "\\\\.(js|css|png|jpe?g|gif|svg|webp)$">',
-  '    Header set Cache-Control "public, max-age=31536000, immutable"',
-  "  </FilesMatch>",
-  '  <FilesMatch "\\\\.(html|htm)$">',
-  '    Header set Cache-Control "public, max-age=0, must-revalidate"',
-  "  </FilesMatch>",
-  '  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"',
-  '  Header set X-Content-Type-Options "nosniff"',
-  '  Header set Referrer-Policy "strict-origin-when-cross-origin"',
-  '  Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"',
-  '  Header set Cross-Origin-Opener-Policy "same-origin-allow-popups"',
-  '  Header set X-Frame-Options "SAMEORIGIN"',
-  "  Header set Content-Security-Policy \"default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'\"",
-  "</IfModule>",
-  "",
-  "# Compression",
-  "<IfModule mod_deflate.c>",
-  "  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/javascript application/json image/svg+xml",
-  "</IfModule>",
-  "<IfModule mod_brotli.c>",
-  "  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/xml text/css application/javascript application/json image/svg+xml",
-  "</IfModule>",
-  "",
-  "# Disable directory browsing",
-  "Options -Indexes"
-];
-
 export default defineConfig({
-  site: SITE_URL,
+  site: ACTIVE_SITE,
   outDir: "build",
   trailingSlash: "always",
   compressHTML: true,
@@ -73,7 +62,9 @@ export default defineConfig({
   },
   integrations: [
     yourwebsquadForms({
-      allowOrigins: ["example.com"]
+      allowOrigins: process.env.ALLOW_ORIGINS?.split(",")
+        .map((s) => s.trim())
+        .filter(Boolean) || [new URL(ACTIVE_SITE).hostname]
     }),
     sitemap({
       filter: (page) => !page.includes("/admin/"),
@@ -82,9 +73,8 @@ export default defineConfig({
         locales: hreflang
       }
     }),
-    htaccessIntegration({
-      customRules: htaccessRules
-    })
+    homepageComments,
+    htaccessIntegration(buildHtaccessConfig())
   ],
   i18n: {
     defaultLocale,

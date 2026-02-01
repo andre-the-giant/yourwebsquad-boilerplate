@@ -1,5 +1,10 @@
 import company from "../../public/content/company/company.json";
 
+const DEPLOY_ENV = process.env.DEPLOY_ENV || "development";
+const DISALLOW = process.env.DISALLOW_ROBOTS === "1" || DEPLOY_ENV === "staging";
+const ENV_SITE =
+  DEPLOY_ENV === "staging" ? process.env.STAGING_URL || process.env.SITE_URL : process.env.SITE_URL;
+
 export const prerender = true;
 
 const normalizeUrl = (url: string | undefined) => {
@@ -13,8 +18,16 @@ const normalizeUrl = (url: string | undefined) => {
 };
 
 export async function GET() {
-  const site = normalizeUrl(company?.url) || "https://example.com";
-  const body = ["User-agent: *", "Allow: /", "", `Sitemap: ${site}/sitemap-index.xml`].join("\n");
+  const preferred = normalizeUrl(ENV_SITE);
+  const companyUrl = normalizeUrl(company?.url);
+  const site = preferred || companyUrl || "https://example.com";
+  const lines = ["User-agent: *"];
+  if (DISALLOW) {
+    lines.push("Disallow: /");
+  } else {
+    lines.push("Allow: /", "", `Sitemap: ${site}/sitemap-index.xml`);
+  }
+  const body = lines.join("\n");
 
   return new Response(body, {
     status: 200,

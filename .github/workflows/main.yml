@@ -1,16 +1,23 @@
-name: 🚀 Build and deploy (template)
+name: 🚀 Build and deploy
 on:
-  push:
-    branches: [playground]
-  pull_request:
-    branches: [main]
-    types: [closed]
+  workflow_dispatch:
+  # push:
+  #   branches: [playground]
+  # pull_request:
+  #   branches: [main]
+  #   types: [closed]
 
 jobs:
   deploy-playground:
     name: Deploy to staging (FTP)
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/playground')
     runs-on: ubuntu-latest
+    env:
+      DEPLOY_ENV: staging
+      SITE_URL: https://example.com
+      STAGING_URL: https://staging.example.com
+      ALLOW_ORIGINS: example.com,staging.example.com
+      DISALLOW_ROBOTS: 1
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -34,6 +41,12 @@ jobs:
   #   name: Deploy to production
   #   if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
   #   runs-on: ubuntu-latest
+  #   env:
+  #     DEPLOY_ENV: production
+  #     SITE_URL: https://example.com
+  #     STAGING_URL: https://staging.example.com
+  #     ALLOW_ORIGINS: example.com
+  #     DISALLOW_ROBOTS: 0
   #   steps:
   #     - name: Checkout repository
   #       uses: actions/checkout@v4
