@@ -20,12 +20,13 @@ const normalizeUrl = (url: string | undefined) => {
 export async function GET() {
   const preferred = normalizeUrl(ENV_SITE);
   const companyUrl = normalizeUrl(company?.url);
-  const site = preferred || companyUrl || "https://example.com";
+  const site = preferred || companyUrl || "";
   const lines = ["User-agent: *"];
   if (DISALLOW) {
     lines.push("Disallow: /");
   } else {
-    lines.push("Allow: /", "", `Sitemap: ${site}/sitemap-index.xml`);
+    lines.push("Allow: /");
+    if (site) lines.push("", `Sitemap: ${site}/sitemap-index.xml`);
   }
   const body = lines.join("\n");
 

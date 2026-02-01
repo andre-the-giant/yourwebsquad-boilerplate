@@ -3,6 +3,10 @@ import MainLayout from "@layouts/Main.astro";
 import { buildSeo, buildJsonLd } from "@helpers/seo";
 
 const locale = "en";
+if (!import.meta.env.SITE_URL) {
+  throw new Error("SITE_URL environment variable is required");
+}
+
 const seo = buildSeo({
   locale,
   path: "/",
@@ -32,7 +36,7 @@ const jsonLd = buildJsonLd({
     </p>
     <div class="cta">
       <a class="button" href="/admin/">Open CMS</a>
-      <a class="button ghost" href="https://example.com">Project docs</a>
+      <a class="button ghost" href={import.meta.env.SITE_URL}>Project docs</a>
     </div>
   </section>
 </MainLayout>

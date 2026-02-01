@@ -45,7 +45,10 @@ const homepageComments = {
 
 // Env-aware URLs
 const DEPLOY_ENV = process.env.DEPLOY_ENV || "development"; // development | staging | production
-const SITE_URL = process.env.SITE_URL || "https://example.com";
+if (!process.env.SITE_URL) {
+  throw new Error("SITE_URL environment variable is required");
+}
+const SITE_URL = process.env.SITE_URL;
 const STAGING_URL = process.env.STAGING_URL || SITE_URL;
 const ACTIVE_SITE = DEPLOY_ENV === "staging" ? STAGING_URL : SITE_URL;
 const defaultLocale = "en";

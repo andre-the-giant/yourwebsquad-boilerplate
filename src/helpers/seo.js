@@ -4,18 +4,20 @@ const hreflangMap = {
 };
 const defaultLang = "en";
 
+const SITE_URL = (process.env.SITE_URL || "").replace(/\/+$/, "");
+
 const defaultSeo = {
   title: "Your Web Squad | Astro Boilerplate",
   description: "Starter template for fast, accessible, multi-tenant Astro sites.",
   image: "/assets/og/default.png",
   imageAlt: "Open Graph placeholder",
   siteName: "Your Web Squad",
-  twitterSite: "https://example.com",
-  twitterCreator: "https://example.com"
+  twitterSite: SITE_URL,
+  twitterCreator: SITE_URL
 };
 
 export function buildSeo({
-  site = "https://example.com/",
+  site = SITE_URL,
   locale = "en",
   path = "/",
   overrides = {},
@@ -99,7 +101,7 @@ export function buildJsonLd({
 } = {}) {
   const {
     name = "Your Business",
-    url = "https://example.com/",
+    url = `${SITE_URL}/`,
     telephone = "+00 0 00 00 00 00",
     streetAddress = "123 Placeholder St.",
     addressLocality = "City",

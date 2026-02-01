@@ -6,6 +6,8 @@ import "@styles/layout.css";
 import Header from "@components/layout/Header.astro";
 import Footer from "@components/layout/Footer.astro";
 const { props = Astro.props } = Astro.props;
+const normalizedSite = (import.meta.env.SITE_URL || "").replace(/\/+$/, "");
+
 const {
   title,
   description,
@@ -17,8 +19,8 @@ const {
   ogType = "website",
   imageAlt = "Open Graph placeholder",
   siteName = "Your Web Squad",
-  twitterSite = "https://example.com",
-  twitterCreator = "https://example.com",
+  twitterSite = normalizedSite,
+  twitterCreator = normalizedSite,
   ogLocale = "en_US"
 } = props.seo || {};
 
@@ -26,7 +28,7 @@ const {
 const resolvedImage =
   typeof image === "string" && image.startsWith("http")
     ? image
-    : `https://example.com${image || "/assets/og/default.png"}`;
+    : `${normalizedSite}${image || "/assets/og/default.png"}`;
 ---
 
 <!doctype html>
