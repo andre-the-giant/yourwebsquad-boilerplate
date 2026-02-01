@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" role="img" aria-label="Newsletter placeholder">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="360" fill="url(#g)" />
+  <rect x="60" y="80" width="480" height="200" rx="18" ry="18" fill="none" stroke="#38bdf8" stroke-width="8" />
+  <path d="M90 120 L300 200 L510 120" fill="none" stroke="#38bdf8" stroke-width="8" />
+  <text x="50%" y="52%" dominant-baseline="middle" text-anchor="middle" fill="#e5e7eb" font-family="Arial, sans-serif" font-size="42" font-weight="700">Newsletter</text>
+</svg>

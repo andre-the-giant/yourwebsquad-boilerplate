@@ -1,0 +1,185 @@
+---
+import { getContent, getCompany } from "@helpers/content";
+import Image from "@yws/Image";
+import Link from "@yws/Link";
+import Button from "@yws/Button";
+import Map from "@yws/Map";
+
+const locale = "en";
+
+const menu = await getContent(locale, "menu");
+const hasFooterFlag = (item) => {
+  if (Array.isArray(item?.showIn)) return item.showIn.includes("footer");
+  return item?.isFooter;
+};
+const footerLinks = (menu || []).flatMap((item) => {
+  const links = [];
+  if (Array.isArray(item?.children)) {
+    item.children.forEach((child) => {
+      if (hasFooterFlag(child) && child.href) links.push(child);
+    });
+  }
+  if (hasFooterFlag(item) && item.href) links.push(item);
+  return links;
+});
+
+const company = await getCompany("company");
+const contact = await getCompany("contact");
+const social = await getCompany("social");
+
+const locations = contact.locations || [];
+const defaultLocation = locations.find((loc) => loc.isDefault) || locations[0];
+
+const primaryPhone = contact.telephones?.find((t) => t.isPrimary) || contact.telephones?.[0];
+const socialLinks = (social.links || []).filter((link) => link.displayInFooter);
+
+const footerColumns = [[], []];
+footerLinks.forEach((link, idx) => {
+  footerColumns[idx % 2].push(link);
+});
+
+const formatAddress = (loc = {}) => {
+  const addr = loc.address || {};
+  const cityLine = [addr.postalCode, addr.city].filter(Boolean).join(" ");
+  return [addr.street, cityLine, addr.province, addr.country].filter(Boolean).join(", ");
+};
+const mapEmbedUrl = defaultLocation?.mapEmbedUrl || "";
+const mapUrl = (loc = {}) => {
+  if (loc.lat && loc.lng)
+    return `https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lng}`;
+  const query = formatAddress(loc);
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+};
+
+const currentYear = new Date().getFullYear();
+
+const copy = {
+  en: {
+    tagline: "Accessible, performant web experiences",
+    addressesLabel: "Locations",
+    linksLabel: "Quick links",
+    phoneLabel: "Call us",
+    mapLabel: "Find us on Google Maps"
+  }
+}[locale] || {
+  tagline: "Accessible, performant web experiences",
+  addressesLabel: "Locations",
+  linksLabel: "Quick links",
+  phoneLabel: "Call us",
+  mapLabel: "Find us on Google Maps"
+};
+const logoImage = "/images/placeholder-logo.svg";
+---
+
+<footer class="footer">
+  <div class="footer__top content">
+    <div class="footer__brand">
+      <div class="footer__logo">
+        <Image
+          src={logoImage}
+          alt={company?.name || "Site logo"}
+          aspectRatio="1/1"
+          fetchpriority="low"
+          loading="lazy"
+          format="webp"
+          quality={65}
+          widths={[150, 200]}
+          sizes="(max-width: 767px) 150px, 200px"
+        />
+      </div>
+      <p class="footer__tagline">{copy.tagline}</p>
+      {
+        primaryPhone && (
+          <div class="footer__phone">
+            <p class="footer__section-label">{copy.phoneLabel}</p>
+            <Link
+              href={`tel:${primaryPhone.short || primaryPhone.display}`}
+              label={primaryPhone.display || primaryPhone.short}
+              variant="ghost"
+              size="lg"
+            />
+          </div>
+        )
+      }
+    </div>
+
+    <div class="footer__links">
+      <p class="footer__section-label footer__links-title">{copy.linksLabel}</p>
+      {
+        footerColumns.map((col, colIdx) => (
+          <ul class="footer__links-col" data-col={colIdx}>
+            {col.map((item) => (
+              <li>
+                <Link href={item.href} label={item.label} variant="ghost" size="md" />
+              </li>
+            ))}
+          </ul>
+        ))
+      }
+    </div>
+
+    <div class="footer__contact">
+      <div class="footer__addresses">
+        <p class="footer__section-label">{copy.addressesLabel}</p>
+        <ul>
+          {
+            locations.map((loc) => (
+              <li>
+                <span class="footer__loc-label">
+                  {loc.label}
+                  <br />
+                  {loc.address.street}
+                  <br />
+                  {loc.address.city}
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    {
+      mapEmbedUrl && (
+        <div class="footer__map">
+          <Map
+            url={mapEmbedUrl}
+            loading="lazy"
+            allowfullscreen
+            aria-label={copy.mapLabel}
+            referrerpolicy="no-referrer-when-downgrade"
+            style="--map-filter: grayscale(100%) contrast(150%)"
+          />
+        </div>
+      )
+    }
+  </div>
+
+  <div class="footer__bottom content">
+    <span class="footer__legal">
+      © {currentYear}
+      {company.name}. {locale === "fr" ? "Tous droits réservés." : "All rights reserved."}
+    </span>
+    <div class="footer__social">
+      {
+        socialLinks.map((link) => (
+          <a href={link.url} target="_blank">
+            <Image
+              src={link.icon}
+              format="webp"
+              quality={65}
+              widths={[32, 64]}
+              sizes="32px"
+              alt={link.slug}
+            />
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</footer>
+<style>
+  .footer__map {
+    height: 300px;
+  }
+</style>

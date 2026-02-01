@@ -1,0 +1,16 @@
+{
+  "links": [
+    {
+      "slug": "instagram",
+      "url": "https://instagram.com/yourstudio",
+      "icon": "/images/placeholder-logo.svg",
+      "displayInFooter": true
+    },
+    {
+      "slug": "facebook",
+      "url": "https://facebook.com/yourstudio",
+      "icon": "/images/placeholder-logo.svg",
+      "displayInFooter": false
+    }
+  ]
+}

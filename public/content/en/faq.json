@@ -1,0 +1,19 @@
+{
+  "label": "FAQ",
+  "seo": {
+    "title": "FAQ | Boilerplate",
+    "description": "Frequently asked questions placeholder.",
+    "image": "/assets/og/default.png"
+  },
+  "faqs": [
+    {
+      "category": "General",
+      "items": [
+        {
+          "question": "How do I customize this site?",
+          "answer": "Replace placeholder content and update styles to match your brand."
+        }
+      ]
+    }
+  ]
+}

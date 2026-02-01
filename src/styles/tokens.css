@@ -1,0 +1,92 @@
+:root {
+  color-scheme: light;
+  --color-bg-rgb: 244, 245, 247;
+  --color-fg-rgb: 22, 24, 27;
+  --color-accent-rgb: 193, 18, 31;
+  --color-accent-muted-rgb: 229, 85, 66;
+  --color-bg: rgb(var(--color-bg-rgb));
+  --color-fg: rgb(var(--color-fg-rgb));
+  --color-bg-alt-rgb: 255, 255, 255;
+  --color-fg-alt-rgb: 22, 24, 27;
+  --color-bg-alt: rgb(var(--color-bg-alt-rgb));
+  --color-fg-alt: rgb(var(--color-fg-alt-rgb));
+  --color-surface: var(--color-bg);
+  --color-border: rgb(220, 223, 228);
+  --color-muted: rgb(80, 80, 80);
+  --color-accent: rgb(var(--color-accent-rgb));
+  --color-accent-contrast: rgb(255, 255, 255);
+  --color-accent-muted: rgb(var(--color-accent-muted-rgb));
+  --color-focus: rgb(248, 205, 1);
+  --color-focus-contrast: rgb(12, 12, 12);
+  --color-shadow: rgba(0, 0, 0, 0.08);
+
+  /* Alert tokens (RGB to allow mixing with alpha) */
+  --alert-info-rgb: 47, 95, 164;
+  --alert-success-rgb: 34, 139, 81;
+  --alert-warning-rgb: 217, 119, 6;
+  --alert-error-rgb: 201, 42, 42;
+  --alert-text-rgb: var(--color-fg-rgb);
+
+  --font-body: "Roboto", sans-serif;
+  --font-display: "Bebas Neue", sans-serif;
+  --font-mono: "SFMono-Regular", monospace;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --size-xs: 0.75rem;
+  --size-sm: 0.875rem;
+  --size-md: 1rem;
+  --size-lg: 1.125rem;
+  --size-xl: 1.375rem;
+  --line-tight: 1.1;
+  --line-normal: 1.5;
+  --line-relaxed: 1.75;
+
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 12px;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+
+  /* Form tokens */
+  --form-width: 100%;
+  --form-field-gap: var(--space-2);
+  --form-label-font-size: var(--size-sm);
+  --form-input-padding: 0.5rem 0.75rem;
+  --form-input-border: 1px solid var(--color-border);
+  --form-input-border-radius: 0;
+  --form-input-bg: var(--color-surface);
+  --form-input-focus: var(--color-focus);
+  --form-help-color: var(--color-muted);
+  --form-error-color: #c92a2a;
+
+  /* brand tokens */
+
+  --max-content-width: 1000px;
+  --headerHeight: 100px;
+
+  /* Button tokens */
+  --button-font: var(--font-display);
+  --button-solid-bg: var(--color-accent);
+  --button-solid-fg: var(--color-accent-contrast);
+  --button-solid-border: var(--color-accent);
+  --button-solid-shadow: 0 12px 25px color-mix(in srgb, var(--color-accent) 35%, transparent);
+  --button-outline-bg: transparent;
+  --button-outline-fg: var(--color-accent);
+  --button-outline-border: var(--color-accent);
+  --button-outline-hover-bg: var(--color-accent-muted);
+  --button-outline-hover-fg: var(--color-accent);
+  --button-ghost-bg: transparent;
+  --button-ghost-fg: var(--color-fg);
+  --button-ghost-border: transparent;
+  --button-ghost-hover-bg: var(--color-accent-muted);
+  --button-ghost-hover-fg: var(--color-accent);
+  --button-focus: var(--color-focus);
+  --button-disabled-opacity: 0.5;
+}

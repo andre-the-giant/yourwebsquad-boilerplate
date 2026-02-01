@@ -1,0 +1,9 @@
+.astro/
+build/
+dist/
+node_modules/
+reports/
+.lighthouseci/
+coverage/
+package-lock.json
+.DS_Store

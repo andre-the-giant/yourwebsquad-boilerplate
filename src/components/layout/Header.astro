@@ -1,0 +1,67 @@
+---
+import LocaleSwitch from "@yws/LocaleSwitch";
+import Image from "@yws/Image";
+import Menu from "./Menu.astro";
+
+const LOCALES = ["en"];
+const LABELS = { en: "EN 🇬🇧" };
+const MENU_COPY = {
+  en: { menuLabel: "Main menu", toggle: { open: "Open menu", close: "Close menu" } }
+};
+
+const currentLocale = "en";
+const urls = { en: "/" };
+
+const logoImage = "/images/placeholder-logo.svg";
+---
+
+<a href="#main" class="skip-link"
+  >{currentLocale === "fr" ? "Aller au contenu" : "Skip to content"}</a
+>
+<header class="header">
+  <div class="header-bg">
+    <Image
+      loading="eager"
+      src={logoImage}
+      height="90px"
+      format="webp"
+      quality={65}
+      widths={[767, 1200]}
+      sizes="(max-width: 767px) 100vw, 1200px"
+      alt=""
+    />
+  </div>
+  <div class="header-content">
+    <a class="logo" href="/">
+      <Image
+        loading="eager"
+        src={logoImage}
+        format="webp"
+        quality={65}
+        widths={[180, 360]}
+        sizes="180px"
+        alt="Site logo"
+      />
+    </a>
+    <div class="header-nav">
+      <Menu
+        locale={currentLocale}
+        currentPath={Astro.url.pathname}
+        menuLabel={MENU_COPY[currentLocale]?.menuLabel}
+        toggleLabel={MENU_COPY[currentLocale]?.toggle}
+      />
+    </div>
+    {
+      LOCALES.length > 1 ? (
+        <LocaleSwitch
+          locales={LOCALES}
+          currentLocale={currentLocale}
+          urls={urls}
+          labels={LABELS}
+          ariaLabel="Language switch"
+          class="localeswitch"
+        />
+      ) : null
+    }
+  </div>
+</header>

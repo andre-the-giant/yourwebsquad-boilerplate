@@ -1,0 +1,38 @@
+---
+import MainLayout from "@layouts/Main.astro";
+import { buildSeo, buildJsonLd } from "@helpers/seo";
+
+const locale = "en";
+const seo = buildSeo({
+  locale,
+  path: "/",
+  overrides: {
+    title: "Your Web Squad Boilerplate",
+    description: "Starter scaffold ready with quality scripts, CMS, and Astro 5."
+  }
+});
+
+const jsonLd = buildJsonLd({
+  locale,
+  path: "/",
+  org: {
+    name: "Your Web Squad Project",
+    url: "https://example.com/"
+  }
+});
+---
+
+<MainLayout props={{ seo: { ...seo, jsonLd } }}>
+  <section class="hero">
+    <p class="eyebrow">Astro 5 boilerplate</p>
+    <h1>Ready to ship your next site faster</h1>
+    <p class="lede">
+      This starter keeps linting, accessibility, SEO, and link checks wired in. Swap in your
+      branding, pages, and content to launch quickly.
+    </p>
+    <div class="cta">
+      <a class="button" href="/admin/">Open CMS</a>
+      <a class="button ghost" href="https://example.com">Project docs</a>
+    </div>
+  </section>
+</MainLayout>

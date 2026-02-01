@@ -1,0 +1,16 @@
+[
+  {
+    "id": "home",
+    "label": "Home",
+    "href": "/",
+    "showIn": ["header", "footer"],
+    "order": 1
+  },
+  {
+    "id": "cms",
+    "label": "Admin",
+    "href": "/admin/",
+    "showIn": ["header", "footer"],
+    "order": 2
+  }
+]

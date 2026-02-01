@@ -1,0 +1,50 @@
+---
+import { getContent } from "@helpers/content";
+import Button from "@yws/Button";
+
+const { locale = "en", currentPath = "/", menuLabel = "Main menu" } = Astro.props;
+const menu = (await getContent(locale, "menu")) || [];
+const headerItems = menu.filter((item) => {
+  if (Array.isArray(item?.showIn)) return item.showIn.includes("header");
+  return item?.isHeader ?? true;
+});
+---
+
+<nav class="menu" aria-label={menuLabel}>
+  <ul class="menu__list">
+    {
+      headerItems.map((item) => {
+        const isActive = item.href && currentPath?.startsWith(item.href);
+        return (
+          <li class={`menu__item${isActive ? " is-active" : ""}`}>
+            <Button class="menu__link" href={item.href} size="sm">
+              {item.label}
+            </Button>
+          </li>
+        );
+      })
+    }
+  </ul>
+</nav>
+
+<style>
+  .menu {
+    display: flex;
+  }
+  .menu__list {
+    display: flex;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .menu__item {
+    display: flex;
+  }
+  .menu__link {
+    text-decoration: none;
+  }
+  .menu__item.is-active .menu__link {
+    text-decoration: underline;
+  }
+</style>

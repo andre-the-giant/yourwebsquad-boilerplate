@@ -1,0 +1,28 @@
+/* keep layout from feeling “floaty” */
+html,
+body {
+  background: #f6f7f9;
+}
+
+/* 1) Global font + line height */
+#nc-root,
+#nc-root * {
+  line-height: 1.25 !important;
+  letter-spacing: normal !important;
+}
+
+/* 2) Sidebar width + tighter nav rows */
+#nc-root aside,
+#nc-root [role="navigation"] {
+  width: 235px !important;
+  min-width: 235px !important;
+}
+
+#nc-root aside a,
+#nc-root aside button,
+#nc-root [role="navigation"] a,
+#nc-root [role="navigation"] button {
+  padding: 6px 10px !important;
+  min-height: 30px !important;
+  font-size: 13px !important;
+}

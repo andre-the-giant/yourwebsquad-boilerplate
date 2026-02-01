@@ -1,0 +1,80 @@
+---
+import "@styles/reset.css";
+import "@styles/tokens.css";
+import "@styles/global.css";
+import "@styles/layout.css";
+import Header from "@components/layout/Header.astro";
+import Footer from "@components/layout/Footer.astro";
+const { props = Astro.props } = Astro.props;
+const {
+  title,
+  description,
+  image = "/assets/og/default.png",
+  canonical,
+  locale = "en",
+  hrefLangs = [],
+  jsonLd = [],
+  ogType = "website",
+  imageAlt = "Open Graph placeholder",
+  siteName = "Your Web Squad",
+  twitterSite = "https://example.com",
+  twitterCreator = "https://example.com",
+  ogLocale = "en_US"
+} = props.seo || {};
+
+// Ensure OG/Twitter image is absolute to avoid broken previews off-site.
+const resolvedImage =
+  typeof image === "string" && image.startsWith("http")
+    ? image
+    : `https://example.com${image || "/assets/og/default.png"}`;
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {hrefLangs.map(({ lang, url }) => <link rel="alternate" hreflang={lang} href={url} />)}
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={resolvedImage} />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={resolvedImage} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+    <meta name="twitter:site" content={twitterSite} />
+    <meta name="twitter:creator" content={twitterCreator} />
+    {jsonLd.length > 0 && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/fonts/roboto-latin-400.woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/fonts/bebas-neue-latin-400.woff2"
+      crossorigin
+    />
+  </head>
+  <body>
+    <Header />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

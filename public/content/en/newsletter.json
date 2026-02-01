@@ -1,0 +1,8 @@
+{
+  "title": "Stay updated",
+  "emailLabel": "Email address",
+  "emailPlaceholder": "you@example.com",
+  "submitLabel": "Subscribe",
+  "successMessage": "Thanks for subscribing!",
+  "errorMessage": "Something went wrong. Please try again."
+}

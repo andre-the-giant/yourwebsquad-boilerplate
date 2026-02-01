@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Placeholder logo">
+  <rect width="200" height="200" fill="#0f172a" />
+  <rect x="20" y="20" width="160" height="160" fill="none" stroke="#38bdf8" stroke-width="8" />
+  <text x="50%" y="52%" dominant-baseline="middle" text-anchor="middle" fill="#e5e7eb" font-family="Arial, sans-serif" font-size="42" font-weight="700">YWS</text>
+</svg>
