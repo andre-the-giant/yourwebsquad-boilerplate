@@ -351,15 +351,15 @@ async function checkSiteWide() {
   }
 
   try {
-    const sitemapRes = await fetch(`${BASE_URL}/sitemap.xml`);
+    const sitemapRes = await fetch(`${BASE_URL}/sitemap-index.xml`);
     if (!sitemapRes.ok) {
       siteWideIssues.push(
-        makeIssue(BASE_URL, "warn", "sitemap-missing", "sitemap.xml not found or not accessible.")
+        makeIssue(BASE_URL, "warn", "sitemap-missing", "sitemap-index.xml not found or not accessible.")
       );
     }
   } catch {
     siteWideIssues.push(
-      makeIssue(BASE_URL, "warn", "sitemap-error", "Error while fetching sitemap.xml.")
+      makeIssue(BASE_URL, "warn", "sitemap-error", "Error while fetching sitemap-index.xml.")
     );
   }
 
