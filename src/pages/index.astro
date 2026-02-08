@@ -1,26 +1,40 @@
 ---
 import MainLayout from "@layouts/Main.astro";
-import { buildSeo, buildJsonLd } from "@helpers/seo";
+import { buildJsonLd, buildSeo } from "@toolkit/seo";
+import { defaultLang, defaultSeoValues, hreflangMapDefault } from "../../seo.config.mjs";
 
 const locale = "en";
+const normalizedSite = (import.meta.env.SITE_URL || "").replace(/\/+$/, "");
+const helperConfig = {
+  siteUrl: normalizedSite,
+  hreflangMap: hreflangMapDefault,
+  defaultLang,
+  seoDefaults: defaultSeoValues
+};
 
-const seo = buildSeo({
-  locale,
-  path: "/",
-  overrides: {
-    title: "Your Web Squad Boilerplate",
-    description: "Starter scaffold ready with quality scripts, CMS, and Astro 5."
-  }
-});
+const seo = buildSeo(
+  {
+    locale,
+    path: "/",
+    overrides: {
+      title: "Your Web Squad Boilerplate",
+      description: "Starter scaffold ready with quality scripts, CMS, and Astro 5."
+    }
+  },
+  helperConfig
+);
 
-const jsonLd = buildJsonLd({
-  locale,
-  path: "/",
-  org: {
-    name: "Your Web Squad Project",
-    url: import.meta.env.SITE_URL || ""
-  }
-});
+const jsonLd = buildJsonLd(
+  {
+    locale,
+    path: "/",
+    org: {
+      name: "Your Web Squad Project",
+      url: import.meta.env.SITE_URL || ""
+    }
+  },
+  helperConfig
+);
 ---
 
 <MainLayout props={{ seo: { ...seo, jsonLd } }}>

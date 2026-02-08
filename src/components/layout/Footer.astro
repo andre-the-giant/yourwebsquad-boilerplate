@@ -1,11 +1,12 @@
 ---
-import { getContent, getCompany } from "@helpers/content";
+import { createContentHelpers } from "@toolkit/content";
 import Image from "@yws/Image";
 import Link from "@yws/Link";
 import Button from "@yws/Button";
 import Map from "@yws/Map";
 
 const locale = "en";
+const { getContent, getCompany } = createContentHelpers();
 
 const menu = await getContent(locale, "menu");
 const hasFooterFlag = (item) => {

@@ -8,7 +8,8 @@
       "@helpers/*": ["src/helpers/*"],
       "@pages/*": ["src/pages/*"],
       "@public/*": ["public/*"],
-      "@yws/*": ["node_modules/yourwebsquad-components/src/lib/components/"]
+      "@yws/*": ["node_modules/yourwebsquad-components/src/lib/components/"],
+      "@toolkit/*": ["node_modules/yourwebsquad-toolkit/helpers/*"]
     }
   },
   "include": ["src", "public"]

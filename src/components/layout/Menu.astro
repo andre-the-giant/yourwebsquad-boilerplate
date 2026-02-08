@@ -1,8 +1,9 @@
 ---
-import { getContent } from "@helpers/content";
+import { createContentHelpers } from "@toolkit/content";
 import Button from "@yws/Button";
 
 const { locale = "en", currentPath = "/", menuLabel = "Main menu" } = Astro.props;
+const { getContent } = createContentHelpers();
 const menu = (await getContent(locale, "menu")) || [];
 const headerItems = menu.filter((item) => {
   if (Array.isArray(item?.showIn)) return item.showIn.includes("header");
