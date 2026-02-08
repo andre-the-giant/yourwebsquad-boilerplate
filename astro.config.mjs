@@ -1,5 +1,6 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
+import { loadEnv } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import yourwebsquadForms from "yourwebsquad-components/forms-integration";
 import htaccessIntegration from "astro-htaccess";
@@ -44,12 +45,14 @@ const homepageComments = {
 };
 
 // Env-aware URLs
-const DEPLOY_ENV = process.env.DEPLOY_ENV || "development"; // development | staging | production
-if (!process.env.SITE_URL) {
+const mode = process.env.NODE_ENV || "development";
+const env = { ...loadEnv(mode, process.cwd(), ""), ...process.env };
+const DEPLOY_ENV = env.DEPLOY_ENV || "development"; // development | staging | production
+if (!env.SITE_URL) {
   throw new Error("SITE_URL environment variable is required");
 }
-const SITE_URL = process.env.SITE_URL;
-const STAGING_URL = process.env.STAGING_URL || SITE_URL;
+const SITE_URL = env.SITE_URL;
+const STAGING_URL = env.STAGING_URL || SITE_URL;
 const ACTIVE_SITE = DEPLOY_ENV === "staging" ? STAGING_URL : SITE_URL;
 const defaultLocale = "en";
 const locales = ["en"];
@@ -65,7 +68,7 @@ export default defineConfig({
   },
   integrations: [
     yourwebsquadForms({
-      allowOrigins: process.env.ALLOW_ORIGINS?.split(",")
+      allowOrigins: env.ALLOW_ORIGINS?.split(",")
         .map((s) => s.trim())
         .filter(Boolean) || [new URL(ACTIVE_SITE).hostname]
     }),
