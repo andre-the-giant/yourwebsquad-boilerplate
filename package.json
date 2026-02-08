@@ -28,7 +28,7 @@
     "astro": "^5.16.6",
     "astro-htaccess": "^0.2.3",
     "yourwebsquad-components": "github:andre-the-giant/yourwebsquad-components#v1.6.5",
-    "yourwebsquad-toolkit": "github:andre-the-giant/yourwebsquad-toolkit#v1.3.2"
+    "yourwebsquad-toolkit": "github:andre-the-giant/yourwebsquad-toolkit#v1.4.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.22",
