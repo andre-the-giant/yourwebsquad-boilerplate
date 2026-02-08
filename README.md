@@ -82,7 +82,7 @@ Set in `.env`:
 
 8. htaccess
 
-- Rules/redirects live in `scripts/htaccess-rules.mjs` (`{ redirects, customRules }`). Imported by `astro.config.mjs`.
+- Rules/redirects live in `htaccess.config.mjs` (`{ redirects, customRules }`). Imported by `astro.config.mjs`.
 
 9. CI (optional)
 
@@ -121,7 +121,7 @@ npm run build
 
 2. Pages
 
-- Generate: `npm run newpage` (templates in `scripts/templates/`).
+- Generate: `npm run newpage` (template scaffolding is provided by `yourwebsquad-toolkit`).
 - Add matching content JSON under `public/content/<locale>/` if the page consumes content.
 - Existing routes: `/`, `/admin/`, `/robots.txt`.
 

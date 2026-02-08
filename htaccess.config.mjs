@@ -41,7 +41,7 @@ export function buildHtaccessConfig() {
     '  Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"',
     '  Header set Cross-Origin-Opener-Policy "same-origin-allow-popups"',
     '  Header set X-Frame-Options "SAMEORIGIN"',
-    "  Header set Content-Security-Policy \"default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'\"",
+    `  Header set Content-Security-Policy "default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'"`,
     "</IfModule>",
     "",
     "# Compression",

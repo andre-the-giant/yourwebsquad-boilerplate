@@ -6,7 +6,7 @@ import htaccessIntegration from "astro-htaccess";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { buildHtaccessConfig } from "./scripts/htaccess-rules.mjs";
+import { buildHtaccessConfig } from "./htaccess.config.mjs";
 
 const homepageComments = {
   name: "homepage-comments",

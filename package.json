@@ -19,7 +19,7 @@
     "test:seo": "yws-toolkit quality seo",
     "test:links": "yws-toolkit quality links",
     "clean": "yws-toolkit clean",
-    "newpage": "node scripts/newpage.mjs",
+    "newpage": "yws-toolkit scaffold newpage",
     "updatecomponents": "yws-toolkit update components",
     "updatetoolkit": "yws-toolkit update toolkit"
   },
