@@ -13,7 +13,7 @@ https://YourWebSquad.com
 - Framework: [Astro 5](https://astro.build/)
 - Component library: [`yourwebsquad-components`](https://amc.yourwebsquad.com) (GitHub: https://github.com/andre-the-giant/yourwebsquad-components)
 - CMS: [Sveltia CMS](https://github.com/sveltia/sveltia-cms) (config in `public/admin/`)
-- Tooling: Prettier + `prettier-plugin-astro`, `@astrojs/sitemap`, `astro-htaccess`, QA scripts (Lighthouse, Pa11y, SEO, link checker, JSON-LD), FTP deploy GitHub Action template
+- Tooling: `yourwebsquad-toolkit` wrappers for formatting/scaffolding/quality/update flows, `@astrojs/sitemap`, `astro-htaccess`, FTP deploy GitHub Action template
 
 ## Set up
 
@@ -127,7 +127,7 @@ npm run build
 
 ## Testing
 
-- All prompts (LH, Pa11y, SEO, links, JSON-LD): `npm test`
+- All checks (LH, Pa11y, SEO, links, JSON-LD): `npm test`
 - A11y: `npm run test:a11y`
 - SEO: `npm run test:seo`
 - Links: `npm run test:links`
@@ -135,11 +135,23 @@ npm run build
 - Clean: `npm run clean`
   Reports land in `reports/` (gitignored).
 
+## Toolkit usage
+
+- Toolkit is pinned in `package.json` as a git tag (example: `yourwebsquad-toolkit#v1.2.0`).
+- Project scripts call toolkit commands:
+  - `npm run format` / `npm run format:check` → `yws-toolkit format ...`
+  - `npm test` + quality scripts → `yws-toolkit quality ...`
+  - `npm run clean` → `yws-toolkit clean`
+  - `npm run newpage` → `yws-toolkit scaffold newpage`
+  - `npm run updatecomponents` / `npm run updatetoolkit` → `yws-toolkit update ...`
+- `htaccess` rules remain project-local in `htaccess.config.mjs`; toolkit handles shared tooling logic.
+
 ## Improving / keeping in sync
 
 - Component library: in the lib repo, run `npm run bumpitup` to publish/tag; in a project using this boilerplate, run `npm run updatecomponents` to pull latest `yourwebsquad-components`.
+- Toolkit: in the toolkit repo, run `npm run bumpitup` to publish/tag; in this project run `npm run updatetoolkit` to pull latest `yourwebsquad-toolkit`.
 - Fixes/enhancements: apply to this boilerplate first, tag a release, then pull/cherry-pick into projects to avoid drift.
-- Keep scripts/helpers centralized here; reapply to projects when updated.
+- Keep reusable scripts centralized in `yourwebsquad-toolkit`; keep project-specific config/helpers in boilerplate.
 
 ## Checklist before cloning for a new site
 
