@@ -11,40 +11,31 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "jsonld:check": "node scripts/jsonld-validate.mjs",
-    "test": "node scripts/run-quality-suite.mjs",
-    "test:a11y": "node scripts/pa11y-crawl-and-test.mjs",
-    "test:seo": "node scripts/seo-audit.mjs",
-    "test:links": "node scripts/link-check.mjs",
-    "clean": "node scripts/clean.mjs",
+    "format": "yws-toolkit format .",
+    "format:check": "yws-toolkit format --check .",
+    "jsonld:check": "yws-toolkit quality jsonld",
+    "test": "yws-toolkit quality run",
+    "test:a11y": "yws-toolkit quality a11y",
+    "test:seo": "yws-toolkit quality seo",
+    "test:links": "yws-toolkit quality links",
+    "clean": "yws-toolkit clean",
     "newpage": "node scripts/newpage.mjs",
-    "updatecomponents": "node scripts/update-components.mjs"
+    "updatecomponents": "yws-toolkit update components",
+    "updatetoolkit": "yws-toolkit update toolkit"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",
-    "@sveltia/cms": "^0.129.0",
     "astro": "^5.16.6",
     "astro-htaccess": "^0.2.3",
-    "yourwebsquad-components": "github:andre-the-giant/yourwebsquad-components#v1.6.5"
+    "yourwebsquad-components": "github:andre-the-giant/yourwebsquad-components#v1.6.5",
+    "yourwebsquad-toolkit": "github:andre-the-giant/yourwebsquad-toolkit#v1.1.1"
   },
   "devDependencies": {
-    "@lhci/cli": "^0.15.1",
     "autoprefixer": "^10.4.22",
     "chalk": "^5.3.0",
-    "cheerio": "^1.1.0",
     "cssnano": "^7.1.2",
-    "execa": "^9.5.2",
     "inquirer": "^9.3.7",
-    "pa11y": "^9.0.1",
     "postcss": "^8.5.6",
-    "prettier": "^3.3.3",
-    "prettier-plugin-astro": "^0.14.1",
-    "semver": "^7.6.2",
-    "serve": "^14.2.5",
-    "structured-data-testing-tool": "^4.5.0",
-    "vite-tsconfig-paths": "^6.0.3",
-    "wait-on": "^9.0.3"
+    "vite-tsconfig-paths": "^6.0.3"
   }
 }

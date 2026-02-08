@@ -1,6 +1,5 @@
 {
   "singleQuote": false,
   "printWidth": 100,
-  "trailingComma": "none",
-  "plugins": ["prettier-plugin-astro"]
+  "trailingComma": "none"
 }
