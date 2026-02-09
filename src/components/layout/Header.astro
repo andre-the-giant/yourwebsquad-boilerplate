@@ -3,14 +3,18 @@ import LocaleSwitch from "@yws/LocaleSwitch";
 import Image from "@yws/Image";
 import Menu from "./Menu.astro";
 
+const { locale = "en", currentPath = "/" } = Astro.props;
+
 const LOCALES = ["en"];
 const LABELS = { en: "EN 🇬🇧" };
 const MENU_COPY = {
   en: { menuLabel: "Main menu", toggle: { open: "Open menu", close: "Close menu" } }
 };
 
-const currentLocale = "en";
+const localeSegment = String(locale).toLowerCase().split("-")[0];
+const currentLocale = LOCALES.includes(localeSegment) ? localeSegment : "en";
 const urls = { en: "/" };
+const homeUrl = "/";
 
 const logoImage = "/images/placeholder-logo.svg";
 ---
@@ -32,7 +36,7 @@ const logoImage = "/images/placeholder-logo.svg";
     />
   </div>
   <div class="header-content">
-    <a class="logo" href="/">
+    <a class="logo" href={homeUrl}>
       <Image
         loading="eager"
         src={logoImage}
@@ -46,7 +50,7 @@ const logoImage = "/images/placeholder-logo.svg";
     <div class="header-nav">
       <Menu
         locale={currentLocale}
-        currentPath={Astro.url.pathname}
+        currentPath={currentPath}
         menuLabel={MENU_COPY[currentLocale]?.menuLabel}
         toggleLabel={MENU_COPY[currentLocale]?.toggle}
       />

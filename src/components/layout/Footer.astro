@@ -5,7 +5,7 @@ import Link from "@yws/Link";
 import Button from "@yws/Button";
 import Map from "@yws/Map";
 
-const locale = "en";
+const { locale = "en" } = Astro.props;
 const { getContent, getCompany } = createContentHelpers();
 
 const menu = await getContent(locale, "menu");
