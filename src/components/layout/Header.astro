@@ -1,11 +1,15 @@
 ---
 import LocaleSwitch from "@yws/LocaleSwitch";
 import Image from "@yws/Image";
+import { createSegmentHelpers } from "@toolkit/segments";
 import Menu from "./Menu.astro";
+import { segments } from "../../../segments.config.mjs";
 
 const { locale = "en", currentPath = "/" } = Astro.props;
+const { getSegmentKey, mapSegmentToLocale } = createSegmentHelpers({ segments });
 
 const LOCALES = ["en"];
+const DEFAULT_LOCALE = "en";
 const LABELS = { en: "EN 🇬🇧" };
 const MENU_COPY = {
   en: { menuLabel: "Main menu", toggle: { open: "Open menu", close: "Close menu" } }
@@ -13,8 +17,30 @@ const MENU_COPY = {
 
 const localeSegment = String(locale).toLowerCase().split("-")[0];
 const currentLocale = LOCALES.includes(localeSegment) ? localeSegment : "en";
-const urls = { en: "/" };
-const homeUrl = "/";
+const normalizedPath = String(currentPath || "/").startsWith("/")
+  ? String(currentPath || "/")
+  : `/${String(currentPath || "/")}`;
+const pathWithoutLocale =
+  normalizedPath.replace(new RegExp(`^/(${LOCALES.join("|")})(?=/|$)`), "") || "/";
+const hadTrailingSlash = pathWithoutLocale.endsWith("/");
+const pathParts = pathWithoutLocale.split("/").filter(Boolean);
+const urls = Object.fromEntries(
+  LOCALES.map((code) => {
+    const mappedParts = [...pathParts];
+    if (mappedParts.length > 0 && getSegmentKey(mappedParts[0])) {
+      mappedParts[0] = mapSegmentToLocale(mappedParts[0], code);
+    }
+    const mappedPath = mappedParts.length > 0 ? `/${mappedParts.join("/")}` : "/";
+    const normalizedMappedPath =
+      hadTrailingSlash && mappedPath !== "/" ? `${mappedPath}/` : mappedPath;
+    const isPrefixedLocale = LOCALES.length > 1 && code !== DEFAULT_LOCALE;
+    return [code, isPrefixedLocale ? `/${code}${normalizedMappedPath}` : normalizedMappedPath];
+  })
+);
+const homeUrl =
+  LOCALES.length > 1 && currentLocale !== DEFAULT_LOCALE
+    ? `/${currentLocale}/`
+    : "/";
 
 const logoImage = "/images/placeholder-logo.svg";
 ---
