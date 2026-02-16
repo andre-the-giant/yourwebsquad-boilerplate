@@ -1,3 +1,28 @@
+
+/*******************************************
+                SKIP LINK
+******************************************/
+.skip-link {
+  display: block;
+  width: 0;
+  overflow: hidden;
+  position: fixed;
+  left: -1000px;
+  text-align: center;
+  padding: 10rem 3rem;
+  margin: 0 auto;
+  background: var(--color-bg);
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--color-foreground-opposite);
+  z-index: 9999;
+  transition: all 120ms ease;
+}
+.skip-link:focus-visible {
+  left: 0;
+  width: 100%;
+  height: var(--headerHeight);
+}
 /* Minimal layout utilities for the boilerplate baseline. */
 .section,
 .section-alt {
