@@ -3,7 +3,8 @@ build/
 dist/
 .astro/
 bak/ 
-
+.cache/
+.yws-cache/
 # dependencies
 node_modules/
 
