@@ -22,7 +22,7 @@
       "required": true
     },
     {
-      "name": "residencey",
+      "name": "residency",
       "label": "Residency address",
       "type": "text",
       "required": true

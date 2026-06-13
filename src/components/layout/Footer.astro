@@ -54,21 +54,22 @@ const mapUrl = (loc = {}) => {
 
 const currentYear = new Date().getFullYear();
 
-const copy = {
-  en: {
-    tagline: "Accessible, performant web experiences",
-    addressesLabel: "Locations",
-    linksLabel: "Quick links",
-    phoneLabel: "Call us",
-    mapLabel: "Find us on Google Maps"
-  }
-}[locale] || {
-  tagline: "Accessible, performant web experiences",
-  addressesLabel: "Locations",
-  linksLabel: "Quick links",
-  phoneLabel: "Call us",
-  mapLabel: "Find us on Google Maps"
-};
+const copy =
+  locale === "fr"
+    ? {
+        tagline: "Des expériences web accessibles et performantes",
+        addressesLabel: "Nos adresses",
+        linksLabel: "Liens rapides",
+        phoneLabel: "Appelez-nous",
+        mapLabel: "Nous trouver sur Google Maps"
+      }
+    : {
+        tagline: "Accessible, performant web experiences",
+        addressesLabel: "Locations",
+        linksLabel: "Quick links",
+        phoneLabel: "Call us",
+        mapLabel: "Find us on Google Maps"
+      };
 const logoImage = "/images/placeholder-logo.svg";
 ---
 
